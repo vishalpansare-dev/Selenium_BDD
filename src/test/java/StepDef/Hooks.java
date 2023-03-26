@@ -1,13 +1,12 @@
 package StepDef;
 
+import Helpers.CommonUtils;
 import TestBase.BaseClass;
-import com.aventstack.extentreports.ExtentReports;
-import com.aventstack.extentreports.reporter.ExtentSparkReporter;
-import com.aventstack.extentreports.reporter.JsonFormatter;
-import com.aventstack.extentreports.reporter.configuration.Theme;
 import io.cucumber.java.*;
-import org.testng.annotations.AfterSuite;
+import org.openqa.selenium.OutputType;
+import org.openqa.selenium.TakesScreenshot;
 
+import java.io.File;
 import java.io.IOException;
 
 
@@ -25,15 +24,28 @@ public class Hooks extends BaseClass {
     }
 
     @Before
-    public void before(){
-
+    public void before(Scenario scenario){
+        CommonUtils.createTest(scenario);
     }
     @After
     public void after(Scenario scenario){
-        System.out.println("After suite..."+scenario.getName());
+        if(scenario.isFailed()){
+            test.fail(scenario.getName() + " : failed due to above error. Please refer to the screenshot at the Top.");
+            String screenshotBase64 = ((TakesScreenshot)driver).getScreenshotAs(OutputType.BASE64);
+            test.addScreenCaptureFromBase64String(screenshotBase64);
+        }else {
+            test.pass(scenario.getName()+" : Passed");
+        }
+
     }
     @AfterAll
     public static void afterAll(){
+
+            driver.close();
+
+        if(extent!=null) {
+            extent.flush();
+        }
 
     }
 

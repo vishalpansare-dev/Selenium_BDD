@@ -1,6 +1,5 @@
 package TestBase;
 
-import PageObjects.LoginPage;
 import com.aventstack.extentreports.ExtentReports;
 import com.aventstack.extentreports.ExtentTest;
 import com.aventstack.extentreports.reporter.ExtentSparkReporter;
@@ -12,7 +11,6 @@ import org.apache.logging.log4j.Logger;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.firefox.FirefoxDriverLogLevel;
 import org.openqa.selenium.firefox.FirefoxOptions;
 import org.openqa.selenium.safari.SafariDriver;
 
@@ -38,7 +36,7 @@ public class BaseClass {
     public static ExtentTest test;
     public static ExtentReports extent;
     public static JsonFormatter json;
-    public static String reportDestination = "reports/report_" + dt + ".html";
+    public static String reportDestination = "target/reports/report_" + dt + ".html";
     public static final String JSON_ARCHIVE = "target/json/jsonArchive.json";
 
     public static void extentReportSpark() {
@@ -90,10 +88,10 @@ public class BaseClass {
         }
     }
     public static void autoOpenBrowser() {
-
         if (properties.getProperty("BrowserName").equalsIgnoreCase("chrome")) {
 
             WebDriverManager.chromedriver().setup();
+
             driver = new ChromeDriver();
             System.setProperty("webdriver.chrome.logfile", "./logs/chromeLogs.txt");
             driver.manage().window().maximize();
@@ -104,9 +102,9 @@ public class BaseClass {
 
             WebDriverManager.firefoxdriver().setup();
             driver = new FirefoxDriver();
-            System.setProperty(FirefoxDriver.SystemProperty.BROWSER_LOGFILE, "./logs/FirefoxLogs.txt");
+            System.setProperty("webdriver.firefox.logfile", "./logs/FirefoxLogs.txt");
             FirefoxOptions options = new FirefoxOptions();
-            options.setLogLevel(FirefoxDriverLogLevel.TRACE);
+//            options.setLogLevel(FirefoxDriverLogLevel.TRACE);
             driver.manage().window().maximize();
             driver.manage().deleteAllCookies();
             driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
@@ -121,6 +119,7 @@ public class BaseClass {
         } else {
 
             WebDriverManager.chromiumdriver().setup();
+
             //   driver = new ChromiumDriver();
             System.setProperty("webdriver.chrome.logfile", "./logs/chromeLogs.txt");
             driver.manage().window().maximize();

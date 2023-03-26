@@ -1,4 +1,4 @@
-package com.utility.library;
+package Helpers;
 
 import java.util.Random;
 
@@ -6,9 +6,9 @@ import java.util.Random;
 /**
  * StringUtil class provides the list customized String functions.
  */
-public class StringUtil {
+public class StringUtils {
 	
-	private StringUtil() {
+	private StringUtils() {
 		
 	}
 
